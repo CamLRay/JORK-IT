@@ -10,7 +10,7 @@ import Navbar from "~/components/Navbar";
 export const metadata: Metadata = {
   title: "JORK IT",
   description: "Jacob's Online Record Keeper for Instructed Training",
-  icons: [{ rel: "icon", url: "./favicon.ico" }],
+  icons: [{ rel: "icon", url: "/public/favicon.ico" }],
 };
 
 const geist = Geist({
