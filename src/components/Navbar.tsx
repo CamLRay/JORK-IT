@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import Link from 'next/link';
 import {
   SignInButton,
-  SignUpButton,
+  // SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
@@ -22,7 +22,7 @@ export default function Navbar() {
       ))}
       <SignedOut>
         <SignInButton />
-        <SignUpButton />
+        {/* <SignUpButton /> */}
       </SignedOut>
       <SignedIn>
         <UserButton />
