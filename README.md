@@ -3,7 +3,7 @@
 
 ## TODO
 
-- [] Mock User Stories
-- [] Setup DB
-- [] Setup Auth
-- [] Plan User Data
+- [ ] Mock User Stories
+- [ ] Setup DB
+- [ ] Setup Auth
+- [ ] Plan User Data
