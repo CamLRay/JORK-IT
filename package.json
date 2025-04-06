@@ -6,6 +6,7 @@
   "scripts": {
     "build": "next build",
     "check": "next lint && tsc --noEmit",
+    "db:start": "docker compose up",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
@@ -22,6 +23,7 @@
   "dependencies": {
     "@t3-oss/env-nextjs": "^0.12.0",
     "drizzle-orm": "^0.41.0",
+    "iconify": "^1.4.0",
     "next": "^15.2.3",
     "postgres": "^3.4.4",
     "react": "^19.0.0",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@iconify/react": "^5.2.1",
     "@tailwindcss/postcss": "^4.0.15",
     "@types/node": "^20.14.10",
     "@types/react": "^19.0.0",
