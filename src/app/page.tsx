@@ -8,7 +8,6 @@ export default function HomePage() {
         <h1 className="text-xl font-extrabold tracking-tight text-white sm:text-[5rem]">
           Welcome to<span className="text-[hsl(280,100%,70%)]">JORK IT</span>
         </h1>
-        <h1></h1>
         <ul className="grid grid-flow-col grid-rows-1 gap-4">
           {items.map((item, index) => (
             <li className="bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5 border border-amber-50 " key={index}>{item}</li>
