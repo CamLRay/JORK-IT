@@ -1,4 +1,3 @@
-import Link from "next/link";
 
 export default function HomePage() {
   const items = ['workouts', 'Stats', 'widget 3']
@@ -13,7 +12,6 @@ export default function HomePage() {
             <li className="bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5 border border-amber-50 " key={index}>{item}</li>
           ))}
         </ul>
-        
       </div>
     </main>
   );

@@ -1,12 +1,5 @@
 import { Icon } from '@iconify/react'
 import Link from 'next/link';
-import {
-  SignInButton,
-  // SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
 export default function Navbar() {
   const menu =[
     { name: "dashboard", path: '/', icon: ["material-symbols:dashboard-outline", "material-symbols:dashboard" ] }, 
@@ -20,13 +13,6 @@ export default function Navbar() {
       {menu.map((option, index) => (
         <Link key={index} href={option.path} className="capitalize grid grid-rows-1 place-items-center py-2 text-xs" ><Icon icon={option.icon[1]!} className="text-3xl text-white"/>{option.name}</Link>
       ))}
-      <SignedOut>
-        <SignInButton />
-        {/* <SignUpButton /> */}
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
     </nav>
   );
 }
