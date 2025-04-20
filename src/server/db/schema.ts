@@ -12,11 +12,13 @@ import { index, pgTableCreator } from "drizzle-orm/pg-core";
  */
 export const createTable = pgTableCreator((name) => `jork-it_${name}`);
 
-export const posts = createTable(
-  "post",
+export const exercises = createTable(
+  "exercise",
   (d) => ({
-    id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    exercise_id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
     name: d.varchar({ length: 256 }),
+    category: d.varchar(),
+    description: d.varchar(),
     createdAt: d
       .timestamp({ withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)

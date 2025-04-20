@@ -1,34 +1,24 @@
-// import { useParams } from "next/navigation"
-export default async function Exercise({ params} : { params: Promise<{ exerciseId: string}> }) {
-// const params = useParams<{exercise: string}>();
-  // const slug = await params;
-  const route = await params;
-  const exerciseList = [
-    {
-    exercise_id:"q1w2e3r4t5y6",
-    name:"deadlift",
-    category:"back",
-    equipment:"barbell",
-    },
-    {
-    exercise_id:"1q2w3e4r5t6y",
-    name:"squat",
-    category:"ass",
-    equipment:"barbell",
-    },
-    {
-    exercise_id:"123456qwerty",
-    name:"bench press",
-    category:"chest",
-    equipment:"barbell",
-    },
-]
+import { db } from "~/server/db";
+import { exercises } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
+import Link from "next/link";
 
-  const found = exerciseList.find((exerciseList)=> exerciseList.exercise_id === route?.exerciseId )
-  console.log(route?.exerciseId);
-  return(
+export default async function ExercisePage({ params }: { params: { exerciseId: string } }) {
+  const id = parseInt(params.exerciseId);
+
+  const [exercise] = await db
+    .select()
+    .from(exercises)
+    .where(eq(exercises.exercise_id, id))
+    .limit(1);
+
+  return (
     <main className="flex flex-col min-h-screen items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <h1 className="capitalize">{(found?.name)}</h1>
+      <div className="flex justify-between">
+        <h1 className="capitalize text-5xl">{exercise?.name ?? "Not found"}</h1>
+        <Link href={`./${id}/edit`}>Edit</Link>
+      </div>
+      <div>{exercise?.description}</div>
     </main>
-  )
+  );
 }

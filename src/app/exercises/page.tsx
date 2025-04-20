@@ -1,26 +1,10 @@
 import Link from "next/link"
-export default function Exercises() {
+import { db } from "~/server/db";
+import { exercises } from "~/server/db/schema";
+import { desc } from "drizzle-orm";
+export default async function Exercises() {
 
-  const exerciseList = [
-    {
-    exercise_id:"q1w2e3r4t5y6",
-    name:"deadlift",
-    category:"back",
-    equipment:"barbell",
-    },
-    {
-    exercise_id:"1q2w3e4r5t6y",
-    name:"squat",
-    category:"ass",
-    equipment:"barbell",
-    },
-    {
-    exercise_id:"123456qwerty",
-    name:"bench press",
-    category:"chest",
-    equipment:"barbell",
-    },
-]
+  const allExercises = await db.select().from(exercises).orderBy(desc(exercises.name));
 
   return(
     <main className="p-5 min-h-screen items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
@@ -29,9 +13,9 @@ export default function Exercises() {
         <Link href="/exercises/new" className="px-3 rounded-4xl">Add +</Link>
       </div>
       <ul className="flex flex-col">
-        {exerciseList.map((exercise, index)=>(
+        {allExercises.map((exercise, index)=>(
           <Link href={"/exercises/" + exercise.exercise_id} key={index} className="capitalize border-y">
-            <p>{exercise.name} ({exercise.equipment})</p>
+            <p>{exercise.name}</p>
             <p className="text-sm text-zinc-300">{exercise.category}</p>
           </Link>
         ))}
