@@ -3,8 +3,9 @@ import { exercises } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 
-export default async function ExercisePage({ params }: { params: { exerciseId: string } }) {
-  const id = parseInt(params.exerciseId);
+export default async function ExercisePage({ params }: { params: Promise<{ exerciseId: string }> }) {
+  const route = await params;
+  const id = parseInt(route?.exerciseId);
 
   const [exercise] = await db
     .select()
