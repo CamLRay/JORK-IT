@@ -15,10 +15,11 @@ export const createTable = pgTableCreator((name) => `jork-it_${name}`);
 export const exercises = createTable(
   "exercise",
   (d) => ({
-    exercise_id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
+    exercise_id: d.uuid().default(sql`gen_random_uuid()`).primaryKey(),
     name: d.varchar({ length: 256 }),
-    category: d.varchar(),
+    tags: d.varchar().array().notNull().default(sql`ARRAY[]::text[]`),
     description: d.varchar(),
+    embed: d.varchar(),
     createdAt: d
       .timestamp({ withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -27,3 +28,4 @@ export const exercises = createTable(
   }),
   (t) => [index("name_idx").on(t.name)],
 );
+

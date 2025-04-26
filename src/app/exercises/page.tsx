@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { db } from "~/server/db";
+import { db } from "~/server/db/";
 import { exercises } from "~/server/db/schema";
 import { desc } from "drizzle-orm";
 export default async function Exercises() {
@@ -16,7 +16,7 @@ export default async function Exercises() {
         {allExercises.map((exercise, index)=>(
           <Link href={"/exercises/" + exercise.exercise_id} key={index} className="capitalize border-y">
             <p>{exercise.name}</p>
-            <p className="text-sm text-zinc-300">{exercise.category}</p>
+            <p className="text-sm text-zinc-300">{exercise.tags.join(", ")}</p>
           </Link>
         ))}
       </ul>
