@@ -5,30 +5,38 @@ import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
 
-
-export default async function ExercisePage({ params }: { params: Promise<{ exerciseId: string }> }) {
-  const route = await params;
-  const id = route?.exerciseId;
-
+export default async function ExercisePage({
+  params,
+}: {
+  params: {
+    id: string;
+  };
+}) {
+  
   const [exercise] = await db
     .select()
     .from(exercises)
-    .where(eq(exercises.exercise_id, id))
+    .where(eq(exercises.exercise_id, params.id))
     .limit(1);
 
   return (
-    <main className="flex flex-col min-h-screen items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="flex flex-col min-h-screen items-center">
       <div className="flex justify-between items-baseline">
         <h1 className="capitalize text-5xl text-center">{exercise?.name ?? "Not found"}</h1>
         
       </div>
       <div className="w-[70%] sm:w-[80%]">{exercise?.description}</div>
+      
+      { exercise?.embed ?
+        <div className="relative aspect-16/9 w-[70%] sm:w-[50%]">
+          <iframe className="absolute top-0 left-0 right-0 bottom-0 w-full h-full" tw="" src={exercise?.embed ?? ''} />
+        </div>
+        :
+        null
+      }
       <div className="capitalize"><span className="text-xl">Tags: </span>{exercise?.tags.join(", ")}</div>
-      <div className="relative aspect-16/9 w-[70%] sm:w-[80%]">
-        <iframe className="absolute top-0 left-0 right-0 bottom-0 w-full h-full" tw="" src={exercise?.embed ?? ''}/>
-      </div>
-      <Button asChild>
-        <Link href={`./edit/${id}`}>Edit</Link>
+      <Button asChild variant="default">
+        <Link href={`./${params.id}/edit`}>Edit</Link>
       </Button>
     </main>
   );

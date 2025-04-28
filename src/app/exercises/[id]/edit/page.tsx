@@ -4,8 +4,19 @@ import { db } from "~/server/db/";
 import { exercises } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card"
+import { Label } from "~/components/ui/label";
+import { Input } from "~/components/ui/input";
+
+
 export default async function EditPage({
   params,
 }: {
@@ -16,7 +27,7 @@ export default async function EditPage({
   const exercise = await db.select().from(exercises).where(eq(exercises.exercise_id, params.id)).then((res) => res[0]);
 
   if (!exercise) {
-    return <div>Post not found</div>;
+    return <div>Exercise not found</div>;
   }
 
   const deleteExercise = async () => {
@@ -31,7 +42,8 @@ export default async function EditPage({
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const rawTags = formData.get("tags") as string;
-    const embed = formData.get("embed") as string;
+    const youtubeLink = formData.get("embed") as string;
+    const embed = youtubeLink.replace("watch?v=", "embed/");
 
     const tags = typeof rawTags === "string" ? rawTags.split(",").map(tag => tag.trim()).filter(Boolean) : [];
 
@@ -40,15 +52,19 @@ export default async function EditPage({
     redirect(`/exercises/${params.id}`)
   }
 return (
-  <main className="flex flex-col min-h-screen items-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-    <div>
-    <h1 className="text-2xl font-bold mb-4">Edit {exercise.name}</h1>
-    <form action={updateExercise}>
+<main className="flex items-center justify-center text-center min-h-[75vh]">
+  <Card className="w-[50%] dark bg-gradient-to-b to-[#2e026d] from-[#15162c]">
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card Description</CardDescription>
+  </CardHeader>
+  <CardContent>
+  <form action={updateExercise}>
       <div className="mb-4">
-        <label htmlFor="name" className="block mb-2">
+        <Label htmlFor="name">
           Name
-        </label>
-        <input
+        </Label>
+        <Input
           type="text"
           required
           name="name"
@@ -58,9 +74,9 @@ return (
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="description" className="block mb-2">
+        <Label htmlFor="description" className="block mb-2">
           Description
-        </label>
+        </Label>
         <textarea
           name="description"
           id="description"
@@ -71,10 +87,10 @@ return (
         ></textarea>
       </div>
       <div className="mb-4">
-        <label htmlFor="tags" className="block mb-2">
+        <Label htmlFor="tags" className="block mb-2">
           Tags comma seperated ie {`(push, pull)`}
-        </label>
-        <input
+        </Label>
+        <Input
           type="text"
           required
           name="tags"
@@ -84,12 +100,11 @@ return (
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="embed" className="block mb-2">
-          Video Embed Link
-        </label>
-        <input
+        <Label htmlFor="embed" className="block mb-2">
+          Youtube Video Link
+        </Label>
+        <Input
           type="text"
-          required
           name="embed"
           id="embed"
           className="w-full p-2 border rounded"
@@ -101,10 +116,14 @@ return (
         className="bg-blue-500 text-white px-4 py-2 rounded"
       >
         Update Exercise
-      </Button>
-    </form>
-  </div>
+    </Button>
     <Button variant="destructive" onClick={deleteExercise}>Delete</Button>
-  </main>
+    </form>
+  </CardContent>
+  <CardFooter>
+    <p>Card Footer</p>
+  </CardFooter>
+</Card>
+</main>
 );
 };

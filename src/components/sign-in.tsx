@@ -10,6 +10,7 @@ import { Loader2, Key } from "lucide-react";
 import { signIn } from "~/lib/auth-client";
 import Link from "next/link";
 import { cn } from "~/lib/utils";
+import { toast } from "sonner";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -91,6 +92,10 @@ export default function SignIn() {
                   onResponse: (ctx) => {
                     setLoading(false);
                   },
+                  onError: (ctx) => {
+										toast.error(ctx.error.message);
+										console.log(ctx.error.message)
+									},
                 },
                 );
               }}
@@ -119,7 +124,7 @@ export default function SignIn() {
                     await signIn.social(
                     {
                       provider: "google",
-                      callbackURL: "/dashboard"
+                      callbackURL: "/"
                     },
                     {
                       onRequest: (ctx) => {
@@ -143,7 +148,12 @@ export default function SignIn() {
             </div>
         </div>
       </CardContent>
-      
+      <CardFooter className="flex flex-col">
+          <p>{`Don't have an account?`}</p>
+          <Button asChild>
+                <Link href={"/signup"}>Sign Up</Link>
+          </Button> 
+      </CardFooter>
     </Card>
   );
 }

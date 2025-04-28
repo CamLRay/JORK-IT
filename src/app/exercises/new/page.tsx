@@ -65,7 +65,6 @@ export default function CreateExercise() {
         </label>
         <input
           type="text"
-          required
           name="embed"
           id="embed"
           className="w-full p-2 border rounded"

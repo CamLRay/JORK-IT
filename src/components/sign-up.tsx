@@ -155,7 +155,7 @@ export default function SignUp() {
 								password,
 								name: `${firstName} ${lastName}`,
 								image: image ? await convertImageToBase64(image) : "",
-								callbackURL: "/dashboard",
+								callbackURL: "/",
 								fetchOptions: {
 									onResponse: () => {
 										setLoading(false);
@@ -165,9 +165,10 @@ export default function SignUp() {
 									},
 									onError: (ctx) => {
 										toast.error(ctx.error.message);
+										console.log(ctx.error.message)
 									},
 									onSuccess: async () => {
-										router.push("/dashboard");
+										router.push("/");
 									},
 								},
 							});
@@ -181,13 +182,6 @@ export default function SignUp() {
 					</Button>
 				</div>
 			</CardContent>
-			<CardFooter>
-				<div className="flex justify-center w-full border-t py-4">
-					<p className="text-center text-xs text-neutral-500">
-						Secured by <span className="text-orange-400">better-auth.</span>
-					</p>
-				</div>
-			</CardFooter>
 		</Card>
 	);
 }
