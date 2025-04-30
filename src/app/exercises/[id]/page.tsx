@@ -20,10 +20,12 @@ export default async function ExercisePage({
     .limit(1);
 
   return (
-    <main className="flex flex-col min-h-screen items-center">
-      <div className="flex justify-between items-baseline">
+    <main className="flex flex-col min-h-screen items-center mt-5">
+      <div className="flex justify-between items-baseline items-center gap-4">
         <h1 className="capitalize text-5xl text-center">{exercise?.name ?? "Not found"}</h1>
-        
+        <Button asChild variant="default">
+        <Link href={`./${params.id}/edit`}>Edit</Link>
+      </Button>
       </div>
       <div className="w-[70%] sm:w-[80%]">{exercise?.description}</div>
       
@@ -35,9 +37,6 @@ export default async function ExercisePage({
         null
       }
       <div className="capitalize"><span className="text-xl">Tags: </span>{exercise?.tags.join(", ")}</div>
-      <Button asChild variant="default">
-        <Link href={`./${params.id}/edit`}>Edit</Link>
-      </Button>
     </main>
   );
 }

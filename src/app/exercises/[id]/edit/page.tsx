@@ -15,6 +15,7 @@ import {
 } from "~/components/ui/card"
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
+import { Textarea } from "~/components/ui/textarea";
 
 
 export default async function EditPage({
@@ -52,17 +53,18 @@ export default async function EditPage({
     redirect(`/exercises/${params.id}`)
   }
 return (
-<main className="flex items-center justify-center text-center min-h-[75vh]">
-  <Card className="w-[50%] dark bg-gradient-to-b to-[#2e026d] from-[#15162c]">
-  <CardHeader>
-    <CardTitle>Card Title</CardTitle>
-    <CardDescription>Card Description</CardDescription>
+<main className="flex items-center justify-center min-h-[75vh]">
+  {/* <Card className="w-3/4 dark bg-gradient-to-b to-[#2e026d] from-[#15162c]"> */}
+  <Card className="w-3/4 bg-black/20 dark">
+  <CardHeader className="text-center">
+    <CardTitle>{exercise?.name}</CardTitle>
+    <CardDescription>Editing Exercise</CardDescription>
   </CardHeader>
   <CardContent>
   <form action={updateExercise}>
       <div className="mb-4">
-        <Label htmlFor="name">
-          Name
+        <Label htmlFor="name" className="block mb-2">
+          Exercise Name
         </Label>
         <Input
           type="text"
@@ -77,14 +79,14 @@ return (
         <Label htmlFor="description" className="block mb-2">
           Description
         </Label>
-        <textarea
+        <Textarea
           name="description"
           id="description"
           className="w-full p-2 border rounded"
           required
           rows={5}
           defaultValue={exercise?.description ?? ""}
-        ></textarea>
+        ></Textarea>
       </div>
       <div className="mb-4">
         <Label htmlFor="tags" className="block mb-2">
@@ -111,18 +113,17 @@ return (
           defaultValue={exercise?.embed ?? ""}
         />
       </div>
+      <div className="flex justify-between">
       <Button
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded"
       >
-        Update Exercise
+        Save Changes
     </Button>
     <Button variant="destructive" onClick={deleteExercise}>Delete</Button>
+    </div>
     </form>
   </CardContent>
-  <CardFooter>
-    <p>Card Footer</p>
-  </CardFooter>
 </Card>
 </main>
 );

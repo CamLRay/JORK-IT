@@ -18,7 +18,7 @@ import {
 } from "~/components/ui/dropdown-menu"
 import { Button } from "./ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { redirect } from "next/navigation";
+import { useRouter} from "next/navigation";
 
 // const deleteExercise = async ( id:string) => {
 //     "use server";
@@ -29,7 +29,7 @@ import { redirect } from "next/navigation";
 
 export function DropDownExercise( { id, name, deleteExercise }: {id:string, name:string, deleteExercise:(id:string) => void}) {
 
-  
+  const router = useRouter();
   return(
     <Dialog>
       <DropdownMenu>
@@ -42,20 +42,21 @@ export function DropDownExercise( { id, name, deleteExercise }: {id:string, name
           <DropdownMenuContent align="end" className="bg-violet-950 text-white">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => redirect(`/exercises/${id}/edit`)}>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => redirect("/exercises/" + id)}>View Details</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push(`/exercises/${id}/edit`)}>Edit</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => router.push("/exercises/" + id)}>View Details</DropdownMenuItem>
             <DialogTrigger asChild>
               <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
             </DialogTrigger>
           </DropdownMenuContent>
       </DropdownMenu>
-        <DialogContent className="bg-zinc-500 border-2 border-destructive" >
+        <DialogContent className="bg-zinc-700 border-black" >
           <DialogHeader>
-            <DialogTitle className="text-destructive">Delete {name}?</DialogTitle>
+            <DialogTitle>Delete {name}?</DialogTitle>
             <DialogDescription className="text-white">
               Doing so will permanently remove it from the list.
             </DialogDescription>
-            <Button variant="destructive" onClick={()=>deleteExercise(id)}>Delete</Button>
+            <Button className="drop-shadow-2xl" variant="destructive" onClick={()=>deleteExercise(id)}>Delete</Button>
+            {/* add ability to programatically close dialogue on delete */}
           </DialogHeader>
         </DialogContent>
     </Dialog>    
