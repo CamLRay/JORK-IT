@@ -7,6 +7,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { Label } from "~/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
+import { handleVideoLink } from "~/lib/actions";
 
 export default function CreateExercise() {
 
@@ -15,10 +16,9 @@ export default function CreateExercise() {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
     const rawTags = formData.get("tags");
-    const youtubeLink = formData.get("embed") as string;
-    const embed = youtubeLink.replace("watch?v=", "embed/");
-
     const tags = typeof rawTags === "string" ? rawTags.split(",").map(tag => tag.trim()).filter(Boolean) : [];
+    const youtubeLink = formData.get("embed") as string;
+    const embed = await handleVideoLink(youtubeLink);
 
     await db.insert(exercises).values({ name, description, tags, embed});
     revalidatePath("/exercises");
@@ -54,7 +54,6 @@ export default function CreateExercise() {
               name="description"
               id="description"
               className="w-full  p-2 border rounded"
-              required
               rows={5}
             />
           </div>
@@ -64,7 +63,6 @@ export default function CreateExercise() {
             </Label>
             <Input
               type="text"
-              required
               name="tags"
               id="tags"
               className="w-full p-2 border rounded"

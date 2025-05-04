@@ -16,6 +16,7 @@ import {
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { handleVideoLink } from "~/lib/actions";
 
 
 export default async function EditPage({
@@ -44,7 +45,7 @@ export default async function EditPage({
     const description = formData.get("description") as string;
     const rawTags = formData.get("tags") as string;
     const youtubeLink = formData.get("embed") as string;
-    const embed = youtubeLink.replace("watch?v=", "embed/");
+    const embed = await handleVideoLink(youtubeLink);
 
     const tags = typeof rawTags === "string" ? rawTags.split(",").map(tag => tag.trim()).filter(Boolean) : [];
 
@@ -83,7 +84,6 @@ return (
           name="description"
           id="description"
           className="w-full p-2 border rounded"
-          required
           rows={5}
           defaultValue={exercise?.description ?? ""}
         ></Textarea>
@@ -94,7 +94,6 @@ return (
         </Label>
         <Input
           type="text"
-          required
           name="tags"
           id="tags"
           className="w-full p-2 border rounded"

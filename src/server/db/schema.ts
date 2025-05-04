@@ -16,7 +16,7 @@ export const exercises = createTable(
   "exercise",
   (d) => ({
     exercise_id: d.uuid().default(sql`gen_random_uuid()`).primaryKey(),
-    name: d.varchar({ length: 256 }),
+    name: d.varchar({ length: 256 }).notNull(),
     tags: d.varchar().array().notNull().default(sql`ARRAY[]::text[]`),
     description: d.varchar(),
     embed: d.varchar(),

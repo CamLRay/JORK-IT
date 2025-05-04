@@ -13,6 +13,7 @@ export default async function ExercisePage({
   };
 }) {
   
+  
   const [exercise] = await db
     .select()
     .from(exercises)
@@ -24,7 +25,7 @@ export default async function ExercisePage({
       <div className="flex justify-between items-baseline items-center gap-4">
         <h1 className="capitalize text-5xl text-center">{exercise?.name ?? "Not found"}</h1>
         <Button asChild variant="default">
-        <Link href={`./${params.id}/edit`}>Edit</Link>
+        <Link href={`./${exercise?.exercise_id}/edit`}>Edit</Link>
       </Button>
       </div>
       <div className="w-[70%] sm:w-[80%]">{exercise?.description}</div>
