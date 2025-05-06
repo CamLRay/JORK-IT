@@ -19,13 +19,14 @@ import { Textarea } from "~/components/ui/textarea";
 import { handleVideoLink } from "~/lib/actions";
 
 
-export default async function EditPage({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
+export default async function EditPage(
+  props: {
+    params: Promise<{
+      id: string;
+    }>;
+  }
+) {
+  const params = await props.params;
   const exercise = await db.select().from(exercises).where(eq(exercises.exercise_id, params.id)).then((res) => res[0]);
 
   if (!exercise) {
@@ -53,77 +54,77 @@ export default async function EditPage({
     revalidatePath("/exercises");
     redirect(`/exercises/${params.id}`)
   }
-return (
-<main className="flex items-center justify-center min-h-[75vh]">
-  {/* <Card className="w-3/4 dark bg-gradient-to-b to-[#2e026d] from-[#15162c]"> */}
-  <Card className="w-3/4 bg-black/20 dark">
-  <CardHeader className="text-center">
-    <CardTitle>{exercise?.name}</CardTitle>
-    <CardDescription>Editing Exercise</CardDescription>
-  </CardHeader>
-  <CardContent>
-  <form action={updateExercise}>
-      <div className="mb-4">
-        <Label htmlFor="name" className="block mb-2">
-          Exercise Name
-        </Label>
-        <Input
-          type="text"
-          required
-          name="name"
-          id="name"
-          className="w-full p-2 border rounded"
-          defaultValue={exercise?.name ?? ""}
-        />
+  return (
+  <main className="flex items-center justify-center min-h-[75vh]">
+    {/* <Card className="w-3/4 dark bg-gradient-to-b to-[#2e026d] from-[#15162c]"> */}
+    <Card className="w-3/4 bg-black/20 dark">
+    <CardHeader className="text-center">
+      <CardTitle>{exercise?.name}</CardTitle>
+      <CardDescription>Editing Exercise</CardDescription>
+    </CardHeader>
+    <CardContent>
+    <form action={updateExercise}>
+        <div className="mb-4">
+          <Label htmlFor="name" className="block mb-2">
+            Exercise Name
+          </Label>
+          <Input
+            type="text"
+            required
+            name="name"
+            id="name"
+            className="w-full p-2 border rounded"
+            defaultValue={exercise?.name ?? ""}
+          />
+        </div>
+        <div className="mb-4">
+          <Label htmlFor="description" className="block mb-2">
+            Description
+          </Label>
+          <Textarea
+            name="description"
+            id="description"
+            className="w-full p-2 border rounded"
+            rows={5}
+            defaultValue={exercise?.description ?? ""}
+          ></Textarea>
+        </div>
+        <div className="mb-4">
+          <Label htmlFor="tags" className="block mb-2">
+            Tags comma seperated ie {`(push, pull)`}
+          </Label>
+          <Input
+            type="text"
+            name="tags"
+            id="tags"
+            className="w-full p-2 border rounded"
+            defaultValue={exercise?.tags.join(", ") ?? ""}
+          />
+        </div>
+        <div className="mb-4">
+          <Label htmlFor="embed" className="block mb-2">
+            Youtube Video Link
+          </Label>
+          <Input
+            type="text"
+            name="embed"
+            id="embed"
+            className="w-full p-2 border rounded"
+            defaultValue={exercise?.embed ?? ""}
+          />
+        </div>
+        <div className="flex justify-between">
+        <Button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Save Changes
+      </Button>
+      <Button variant="destructive" onClick={deleteExercise}>Delete</Button>
       </div>
-      <div className="mb-4">
-        <Label htmlFor="description" className="block mb-2">
-          Description
-        </Label>
-        <Textarea
-          name="description"
-          id="description"
-          className="w-full p-2 border rounded"
-          rows={5}
-          defaultValue={exercise?.description ?? ""}
-        ></Textarea>
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="tags" className="block mb-2">
-          Tags comma seperated ie {`(push, pull)`}
-        </Label>
-        <Input
-          type="text"
-          name="tags"
-          id="tags"
-          className="w-full p-2 border rounded"
-          defaultValue={exercise?.tags.join(", ") ?? ""}
-        />
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="embed" className="block mb-2">
-          Youtube Video Link
-        </Label>
-        <Input
-          type="text"
-          name="embed"
-          id="embed"
-          className="w-full p-2 border rounded"
-          defaultValue={exercise?.embed ?? ""}
-        />
-      </div>
-      <div className="flex justify-between">
-      <Button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Save Changes
-    </Button>
-    <Button variant="destructive" onClick={deleteExercise}>Delete</Button>
-    </div>
-    </form>
-  </CardContent>
-</Card>
-</main>
-);
+      </form>
+    </CardContent>
+  </Card>
+  </main>
+  );
 };

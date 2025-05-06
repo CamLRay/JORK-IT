@@ -5,15 +5,16 @@ import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
 
-export default async function ExercisePage({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
-  
-  
+export default async function ExercisePage(
+  props: {
+    params: Promise<{
+      id: string;
+    }>;
+  }
+) {
+  const params = await props.params;
+
+
   const [exercise] = await db
     .select()
     .from(exercises)
@@ -22,7 +23,7 @@ export default async function ExercisePage({
 
   return (
     <main className="flex flex-col min-h-screen items-center mt-5">
-      <div className="flex justify-between items-baseline items-center gap-4">
+      <div className="flex justify-between items-center gap-4">
         <h1 className="capitalize text-5xl text-center">{exercise?.name ?? "Not found"}</h1>
         <Button asChild variant="default">
         <Link href={`./${exercise?.exercise_id}/edit`}>Edit</Link>
